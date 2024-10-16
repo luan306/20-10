@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chúc Mừng 20-10</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #f0f8ff;
+        }
+
+        .parent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .above-fold {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .wrap-present {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .present-box {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .present-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .present {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        .present.open {
+            transform: rotateY(180deg);
+        }
+
+        .side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .front {
+            color: #fff;
+        }
+
+        .front img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .back {
+            background-color: #fff;
+            color: #333;
+            transform: rotateY(180deg);
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column; /* Thay đổi hướng sắp xếp để chèn văn bản và hình ảnh avatar */
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 100px; /* Kích thước bao quanh avatar */
+            height: 100px; /* Kích thước bao quanh avatar */
+            overflow: hidden; /* Ẩn phần thừa */
+            border-radius: 50%; /* Hình tròn cho container */
+            animation: pulse 1.5s infinite; /* Hiệu ứng nhấp nhô */
+        }
+
+        .avatar {
+            width: 100%; /* Đảm bảo ảnh đầy đủ trong container */
+            height: auto; /* Giữ tỷ lệ khung hình */
+            border-radius: 50%; /* Tạo hình tròn cho avatar */
+            position: absolute; /* Đặt vị trí tuyệt đối trong container */
+            top: 50%; /* Đặt ở giữa theo chiều dọc */
+            left: 50%; /* Đặt ở giữa theo chiều ngang */
+            transform: translate(-50%, -50%); /* Đưa về giữa */
+        }
+
+        /* Hiệu ứng nhấp nhô */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1); /* Nhích lên 10% */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #card {
+            max-width: 90vw;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .title-card {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ff1493;
+        }
+
+        .honey {
+            width: 100px;
+            height: auto;
+            margin: 10px 0;
+        }
+
+        .content-card {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .info-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="tainhacchuong.net_way-back-home.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <div class="parent">
+        <canvas id="canvas"></canvas>
+        
+        <section class="above-fold">
+            <div class="wrap-present">
+                <div class="present-box" id="present">
+                    <div class="present">
+                        <div class="side front">
+                            <img src="5c721d75a2bb91f64ab172f2f47e1ee1.png_720x720q80.png" alt="Hộp quà">
+                        </div>
+                        <div class="side back">
+                            <div class="avatar-container">
+                                <img src="z5834134283957_6f5740b74ab7687796c361a9fb0b6db1.jpg" alt="Avatar" class="avatar" />
+                            </div>
+                            <p>My Kha</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="info-text" id="info-text">Nhấn vào để mở quà</p>
+        </section>
+
+        <div id="card">
+            <h4 class="title-card">🎁 Chúc Mừng 20-10 🎁</h4>
+            
+            <div class="content-card">
+              Hi em, nhân ngày 20-10 anh chúc My Kha của anh luôn vui vẻ, hạnh phúc, được nhiều niềm vui. Anh thú thật anh không phải là người đàn ông tinh tế, đẹp trai hay giỏi giang. Nhưng tấm lòng của anh là tất cả những gì anh có. Đây là món quà nhỏ mà anh phải suy nghĩ rất nhiều mới lựa được món quà này. Hi vọng em sẽ thích
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Khởi tạo Particles.js
+            particlesJS("canvas", {
+                particles: {
+                    number: {
+                        value: 100,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#ff1493"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false
+                    },
+                    size: {
+                        value: 5,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffffff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+
+            // Thêm sự kiện click để mở quà
+            $('#present').on('click', function() {
+                $(this).find('.present').toggleClass('open'); // Quay hộp quà
+                
+                // Ẩn chữ nhấp vào
+                $('#info-text').fadeOut();
+
+                // Hiển thị tấm thư
+                $('#card').fadeIn();
+
+                // Phát nhạc
+                const audio = document.getElementById('background-music');
+                audio.play();
+            });
+        });
+    </script>
+</body>
+</html>
